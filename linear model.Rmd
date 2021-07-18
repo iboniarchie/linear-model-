@@ -37,6 +37,11 @@ plot(pressure)
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
+
+
+
+
+
 ###Plot scatterplot
 
 ```{r}
@@ -46,47 +51,22 @@ plot(SIMS~ARM,data=data)
 The y -axis is SIMS and the X- axis is ARM. This plot is showing a positive  
 linea correaltion   
 
-```{r}
-basicNN <- ggplot(data,aes(y=SIMS,x=ARM))
-```
-
-
-
-
-
-
-
-
-
-
-
-```{r}
-basicNN + geom_point()
-```
-  
-  
-###get fancy  
-
-
-```{r}
-basicNN + geom_point(aes(SIMS=ARM)) 
-```
-
-
-
 
 ##Now with ggplot - first select the basic data
 
 ```{r}
 basicNN <- ggplot(data,aes(y=SIMS,x=ARM))
 ```
-
-
+##Now add in scatterplot
 ```{r}
 basicNN + geom_point()
 ```
-
-
+  
+  
+###get fancy  
+```{r}
+basicNN + geom_point(aes(SIMS=ARM)) 
+```
 
 
 
@@ -139,16 +119,91 @@ plot(SIMS~GRIP,data=data)
 ##Now with ggplot - first select the basic data
 
 ```{r}
-basicNN <- ggplot(data,aes(y=SIMSt,x=GRIP))
-```
-```{r}
 basicNN <- ggplot(data,aes(y=SIMS,x=GRIP))
 ```
 
+##Now add in scatterplot
 
 ```{r}
 basicNN + geom_point()
 ```
+
+
+###get fancy  
+
+
+```{r}
+basicNN + geom_point(aes(SIMS=GRIP)) 
+```
+
+
+
+
+# Numerical results
+
+```{r}
+cor(SIMS~GRIP,data=data)
+```
+
+
+
+# Inferential  (Build linear model)
+  
+```{r}
+model.1 <- lm(SIMS~GRIP,data=data)
+summary.lm(model.1)
+```
+
+
+
+# now add the model fit to our plot
+  
+```{r}
+basicNN + geom_point() + geom_smooth(method=lm)
+``` 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
