@@ -5,11 +5,13 @@ date: "7/14/2021"
 output: 
    html_document:
      toc: true
-   toc_depth: 3
+     number_section: true
+     toc_depth: 5
      
      
 ---
-
+    
+            
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tigerstats)
@@ -17,7 +19,23 @@ library(tidyverse)
 data <- read.csv(file="https://onlinestatbook.com/case_studies_rvls/physical_strength/data.txt",sep="",header=TRUE)  
 ```
 
-## R Markdown
+
+
+
+# Introduction
+
+
+Read about the data from the website where it is staged Then form three    
+regression models; Model1 is SIMS~ARM, Model2 is SIMS~Grip and Model3 is     SIMS~ARM+GRIP for each model find a 95% prediction interval OF SIMS given a    
+value of 94 for GRIP and 88 for the ARM Compare Model1 with Model3 using     anova.Write it up in a markdown document, push the project up to you github     
+account and submit it back to canvas as link.    
+
+# SIMS~ARM
+
+
+
+
+
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
@@ -27,9 +45,8 @@ When you click the **Knit** button a document will be generated that includes bo
 summary(cars)
 ```
 
-## Including Plots
+## Graphical Desriptive Results
 
-You can also embed plots, for example:
 
 ```{r pressure, echo=FALSE}
 plot(pressure)
@@ -42,7 +59,7 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 
 
 
-###Plot scatterplot
+###Basic scatterplot
 
 ```{r}
 plot(SIMS~ARM,data=data)
@@ -52,25 +69,27 @@ The y -axis is SIMS and the X- axis is ARM. This plot is showing a positive
 linea correaltion   
 
 
-##Now with ggplot - first select the basic data
+
 
 ```{r}
 basicNN <- ggplot(data,aes(y=SIMS,x=ARM))
 ```
-##Now add in scatterplot
+### Basic Scatterplot  
+
+
 ```{r}
 basicNN + geom_point()
 ```
   
   
-###get fancy  
+    
 ```{r}
 basicNN + geom_point(aes(SIMS=ARM)) 
 ```
 
 
 
-# Numerical results
+### Numerical Descriptive Results     
 
 ```{r}
 cor(SIMS~ARM,data=data)
@@ -80,11 +99,10 @@ The value of the correlation is a positive 0.68. The indicates that the line
 will traveling up hill and towards the right.  
 
 
-# Inferential  (Build linear model)
+### Inferential  (Build linear model)    
   
 ```{r}
-model.1 <- lm(SIMS~ARM,data=
-                data)
+model.1 <- lm(SIMS~ARM,data=data)
 summary.lm(model.1)
 ```
 
@@ -93,7 +111,7 @@ The Formula needed is y = mx + b to create a line. The adjusted R-squared is
 the line it looks at.  
 
 
-# now add the model fit to our plot
+### Linear model wilth blue line      
   
 ```{r}
 basicNN + geom_point() + geom_smooth(method=lm)
@@ -102,34 +120,37 @@ basicNN + geom_point() + geom_smooth(method=lm)
 It appears that where the line crosses on the X axis is at 100 and meets on the  
 on the y axis at 1  
 
-
-
+  
 ```{r}
 newdata = data.frame(GRIP = 94, ARM = 88)
 predict(model.1, newdata, interval = "prediction")
 ```
+# Results    
 
+# SIMS~GRIP  
 
-###Plot scatterplot
+### Graphical Descriptive Results  
+
+Plot scatterplot  
 
 ```{r}
 plot(SIMS~GRIP,data=data)
 ```
 
-##Now with ggplot - first select the basic data
+  
 
 ```{r}
 basicNN <- ggplot(data,aes(y=SIMS,x=GRIP))
 ```
 
-##Now add in scatterplot
+### Basic Scatterplot    
 
 ```{r}
 basicNN + geom_point()
 ```
 
 
-###get fancy  
+### Basic Scatterplot  
 
 
 ```{r}
@@ -147,16 +168,15 @@ cor(SIMS~GRIP,data=data)
 
 
 
-# Inferential  (Build linear model)
+#### Inferential  (Build linear model)    
   
 ```{r}
-model.1 <- lm(SIMS~GRIP,data=data)
-summary.lm(model.1)
+model.2 <- lm(SIMS~GRIP,data=data)
+summary.lm(model.2)
 ```
 
 
-
-# now add the model fit to our plot
+#### Linear model with blue line   
   
 ```{r}
 basicNN + geom_point() + geom_smooth(method=lm)
@@ -164,6 +184,9 @@ basicNN + geom_point() + geom_smooth(method=lm)
 
 
 
+```{r}
+predict(model.2, newdata, interval = "prediction")
+```
 
 
 
@@ -175,14 +198,31 @@ basicNN + geom_point() + geom_smooth(method=lm)
 
 
 
+# SIMS~ARM + GRIP
 
 
 
 
 
 
+### Numerical Descriptive Results
 
 
+
+
+#### Inferential  (Build linear model) Results
+
+
+```{r}
+model.3 <- lm(SIMS~ARM + GRIP,data=data)
+summary.lm(model.3)
+```
+
+
+
+
+
+#### Model Comparison
 
 
 
